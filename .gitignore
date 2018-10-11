@@ -1,0 +1,10 @@
+.idea
+.venv/
+*.pdb
+*.psf
+__pycache__/
+venv/
+*.dcd
+data/
+*.csv
+*.png
