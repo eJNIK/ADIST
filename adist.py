@@ -43,8 +43,6 @@ class MainWindow(QMainWindow):
 
         self.show()
 
-
-
     @pyqtSlot()
     def run_option(self):
         self.check = ''
@@ -76,9 +74,9 @@ class MainWindow(QMainWindow):
 
             frames_list = self.frames_list(backbone)
 
-            if self.check == 'file':
-                Tools.export_to_file(frames_list)
-                QMessageBox.information(self, 'ADIST', 'File created!')
+            if self.check == 'ten':
+
+
             elif self.check == 'plot':
                 Tools.plot(frames_list, atom_1, atom_2)
                 QMessageBox.information(self, 'ADIST', 'Plot created!')
@@ -138,6 +136,17 @@ class MainWindow(QMainWindow):
             frame = Frame(i, bonds, colors_command_list)
             frames.append(frame.create_frame())
         return frames
+
+    def ten_color(self, frames):
+
+        for frame in frames:
+            cmd.frame(frame.number)
+            print('Frame number: ' + frame.number)
+            for color in frame.colors_command_list:
+                for atoms in color:
+                    print(atoms)
+
+
 
 
 if __name__ == '__main__':
