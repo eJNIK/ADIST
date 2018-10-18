@@ -1,9 +1,5 @@
-import logging
-import sys
-from atom_bond_frame import Atom, Bond
-from tools import Tools
-
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+from PointAtomBondFrameFrames import Atom, Bond
+from Tools import Tools, logger, logging
 
 
 class InputFiles:
@@ -33,7 +29,7 @@ class InputFiles:
                         atom_list[i].append(a[i][j])  # jesli nie to dodaj
             return atom_list
         except FileNotFoundError as error:
-            print(error.strerror)
+            logging.error(error.strerror)
 
     def create_atom_list(self):
         atom_list = self.read_pdb()
@@ -69,7 +65,7 @@ class InputFiles:
             return bond_list
 
         except FileNotFoundError as error:
-            print(error.strerror)
+            logging.error(error.strerror)
 
     def crete_bonds_list(self):
         b = self.read_psf()

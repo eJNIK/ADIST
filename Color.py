@@ -1,8 +1,5 @@
 from range_key_dict import RangeKeyDict
-import sys
-import logging
-
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+from Tools import logger, maxsize, logging
 
 
 class Color:
@@ -12,7 +9,7 @@ class Color:
     def return_color(self):
         try:
             colors_set = RangeKeyDict({
-                (-(sys.maxsize), -20): 'density',
+                (-(maxsize), -20): 'density',
                 (-20, -15): 'nitrogen',
                 (-15, -10): 'marine',
                 (-10, -5): 'lightblue',
@@ -22,13 +19,12 @@ class Color:
                 (10, 15): 'lightorange',
                 (15, 20): 'oxygen',
                 (20, 25): 'red',
-                (25, sys.maxsize): 'ruby',
+                (25, maxsize): 'ruby',
 
             })
 
             return colors_set[self.delta_pr]
+
         except KeyError as error:
             logging.error('Value:' + str(error) + ' out of range!')
             return 'white'
-
-# mapowanie wartości liczbowej na kolory, mapy kolor, skale kolorow, gradienty

@@ -2,7 +2,12 @@ from math import sqrt
 from datetime import datetime
 import csv
 import os
+from sys import maxsize, argv, exit
 import matplotlib.pyplot as plt
+import logging
+
+
+logger = logging.basicConfig(filename='ADIST.log', filemode='w', level=logging.DEBUG, format='%(asctime)s- %(levelname)s - %(message)s')
 
 
 class Tools:
@@ -29,7 +34,7 @@ class Tools:
                 for bond in frame.bonds_list:
                     writer.writerow([frame.number, bond.atom_1.number, bond.atom_2.number, bond.distance, bond.color])
         csv_file.close()
-        print('File created !')
+
 
     @staticmethod
     def distance_percent_change(d0, di):

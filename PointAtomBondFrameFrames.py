@@ -1,4 +1,4 @@
-from tools import Tools
+from Tools import Tools
 
 
 class Point:
@@ -64,3 +64,29 @@ class Frame:
         frame.colors_command_list = self.colors_command_list
 
         return frame
+
+
+class Frames:
+    def __init__(self, residue):
+        self.residue = residue
+
+    @staticmethod
+    def create_color_list(bonds):
+        colors = {
+            'density': [],
+            'nitrogen': [],
+            'lightblue': [],
+            'bluewhite': [],
+            'white': [],
+            'paleyellow': [],
+            'lightorange': [],
+            'oxygen': [],
+            'red': [],
+            'ruby': []
+        }
+
+        for bond in bonds:
+
+            colors[bond.color].append(bond.bond)
+
+        return colors
