@@ -3,10 +3,12 @@ from SelectResidue import SelectResidue
 from Tools import Tools, logger, logging
 from Color import Color
 from PointAtomBondFrameFrames import Atom, Frames, Frame, Bond
-import pymol2
+import pymol2, pymol
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QFileDialog
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, QCoreApplication
 from gui import LoadFileWindow, OptionWindow
+import subprocess
+import pickle
 
 
 class MainWindow(QMainWindow):
@@ -17,7 +19,6 @@ class MainWindow(QMainWindow):
         self.file_psf = ''
         self.file_dcd = ''
         self.setGeometry(50, 50, 400, 450)
-
 
         self.setWindowTitle('ADIST')
         self.start_load_file_window()
@@ -59,32 +60,43 @@ class MainWindow(QMainWindow):
         self.p1.cmd.load(self.file_pdb, 'loaded_protein')
         self.p1.cmd.load_traj(self.file_dcd, 'loaded_protein')
         self.p1.cmd.remove('solvent')
-        frames_list = self.frames_list(backbone)
+        self.frames_list = self.create_frames_list(backbone)
 
         if self.option.file_check.isChecked():
-            if frames_list:
-                Tools.export_to_file(frames_list)
+            if self.frames_list:
+                self.p1.stop()
+                Tools.export_to_file(self.frames_list)
                 QMessageBox.information(self, 'ADIST', 'CSV file created!')
                 logging.info('CSV file created!')
-                self.p1.stop()
 
         if self.option.chart_check.isChecked():
-            if frames_list:
+            if self.frames_list:
                 atom_1 = self.option.atom_1_input.text()
                 atom_2 = self.option.atom_2_input.text()
 
                 if atom_1.isdigit() and atom_2.isdigit():
-
-                    Tools.plot(frames_list, atom_1, atom_2)
+                    self.p1.stop()
+                    Tools.plot(self.frames_list, atom_1, atom_2)
                     QMessageBox.information(self, 'ADIST', 'Plot created!')
                     logging.info('Plot created!')
 
         if self.option.ten_colors_check.isChecked():
-            if frames_list:
-                pass
+            if self.frames_list:
+                self.p1.stop()
+                QMessageBox.information(self, 'ADIST', 'Done, watch result in PyMOL')
+
+                with open("frames", "wb") as f:
+                    pickle.dump(self.frames_list, f, pickle.HIGHEST_PROTOCOL)
+                f.close()
+                logging.info('File dropped')
+                subprocess.call(['python', 'ten_colors.py', self.file_pdb, self.file_dcd, 'frames'])
+
         if self.option.two_colors_check.isChecked():
-            if frames_list:
-                pass
+            if self.frames_list:
+                self.p1.stop()
+                QMessageBox.information(self, 'ADIST', 'Done, watch result in PyMOL')
+
+
 
     def file_load_click(self):
         filename = QFileDialog.getOpenFileName()
@@ -99,7 +111,7 @@ class MainWindow(QMainWindow):
             QMessageBox.critical(self, 'Error', 'Wrong file extension')
             logging.error('Wrong file extension')
 
-    def frames_list(self, residue):
+    def create_frames_list(self, residue):
         frames = []
         completed = 0
         self.option.progress.setRange(0, self.p1.cmd.count_frames()+1)
