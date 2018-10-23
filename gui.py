@@ -31,6 +31,10 @@ class LoadFileWindow(QWidget):
         self.combo.resize(200, 40)
         self.combo.move(100, 250)
 
+        # self.project_btn = QPushButton('Load previous project', self)
+        # self.project_btn.resize(200, 40)
+        # self.project_btn.move(100, 330)
+
         self.next_btn = QPushButton('Next', self)
         self.next_btn.resize(100, 40)
         self.next_btn.move(280, 400)
@@ -83,11 +87,11 @@ class OptionWindow(QWidget):
         self.label_ten_colors.setText('10 Colors')
         self.label_ten_colors.move(150, 220)
 
-        self.two_colors_check = QCheckBox(self)
-        self.two_colors_check.move(120, 260)
-        self.label_two_colors = QLabel(self)
-        self.label_two_colors.setText('2 Colors')
-        self.label_two_colors.move(150, 260)
+        # self.two_colors_check = QCheckBox(self)
+        # self.two_colors_check.move(120, 260)
+        # self.label_two_colors = QLabel(self)
+        # self.label_two_colors.setText('2 Colors')
+        # self.label_two_colors.move(150, 260)
 
         self.progress = QProgressBar(self)
         self.progress.setGeometry(200, 80, 280, 20)

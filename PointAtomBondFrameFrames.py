@@ -61,7 +61,7 @@ class Frame:
         frame = Frame(self.number, self.bonds_list, self.colors_command_list)
         frame.number = self.number
         frame.bonds_list = self.bonds_list
-        frame.colors_command_list = self.colors_command_list
+        # frame.colors_command_list = self.colors_command_list
 
         return frame
 
