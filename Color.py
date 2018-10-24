@@ -28,3 +28,16 @@ class Color:
         except KeyError as error:
             logging.error('Value:' + str(error) + ' out of range!')
             return 'white'
+
+
+class ColorCommand:
+    def __init__(self, color_name, atoms_list):
+        self.color_name = color_name
+        self.atoms_list = atoms_list
+        self.atoms_to_color = 'id ['
+
+    def create_color_command(self):
+        for atom_pair in self.atoms_list:
+            self.atoms_to_color += atom_pair + ','
+        self.atoms_to_color = self.atoms_to_color[:-1]
+        self.atoms_to_color += ']'

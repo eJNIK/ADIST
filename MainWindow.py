@@ -1,8 +1,8 @@
 from InputFiles import InputFiles
 from SelectResidue import SelectResidue
 from Tools import Tools, logger, logging
-from Color import Color
-from PointAtomBondFrameFrames import Atom, Frames, Frame, Bond
+from Color import Color, ColorCommand
+from PointAtomBondFrameFrames import Atom, Frames, Frame, Bond, CommandFrame
 import pymol2, pymol
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QFileDialog
 from PyQt5.QtCore import pyqtSlot
@@ -81,17 +81,19 @@ class MainWindow(QMainWindow):
             if self.option.ten_colors_check.isChecked():
                 if self.frames_list:
 
-                    QMessageBox.information(self, 'ADIST', 'Done, watch result in PyMOL')
-
+                    self.comand_frames = self.create_commands_list(self.frames_list)
                     with open("frames.file", "wb") as f:
-                        pickle.dump(self.frames_list, f, pickle.HIGHEST_PROTOCOL)
+                        pickle.dump(self.comand_frames, f, pickle.HIGHEST_PROTOCOL)
+                        f.close()
                     if os.path.isfile('frames.file'):
                         logging.info('File dropped')
-                        QMessageBox.information(self, 'ADIST', 'Done, watch result in PyMOL')
-                        # subprocess.call(['python', 'ten_colors.py', self.file_pdb, self.file_dcd, 'frames.file'])
-                    else:
-                        QMessageBox.critical(self, 'Error', 'File not found!')
-                        logging.error('File not found')
+
+                    QMessageBox.information(self, 'ADIST', 'Done, watch result in PyMOL')
+                    subprocess.call(['python', 'ten_colors.py', self.file_pdb, self.file_dcd, 'frames.file'])
+
+                else:
+                    QMessageBox.critical(self, 'Error', 'File not found!')
+                    logging.error('File not found')
         else:
             QMessageBox.critical(self, 'Error', 'None file selected!')
             logging.error('None file selected')
@@ -114,7 +116,7 @@ class MainWindow(QMainWindow):
     def create_frames_list(self, residue):
         frames = []
         completed = 0
-        self.option.progress.setRange(0, self.p1.cmd.count_frames()+1)
+        self.option.progress.setRange(0, self.p1.cmd.count_frames() + 1)
         for i in range((self.p1.cmd.count_frames()) + 1):
             completed += 1
             self.option.progress.setValue(completed)
@@ -149,3 +151,27 @@ class MainWindow(QMainWindow):
             frame = Frame(i, bonds, colors_command_list)
             frames.append(frame.create_frame())
         return frames
+
+    def create_commands_list(self, frames):
+        comands_frames = []
+        completed = 0
+        self.option.progress.setRange(0, len(frames))
+
+        for frame in frames:
+            comands_list = []
+            completed += 1
+            self.option.progress.setValue(completed)
+            for key, value in frame.colors_command_list.items():
+                if value:
+                    color_command = ColorCommand(key, value)
+                    color_command.create_color_command()
+                    comands_list.append(color_command)
+            command_frame = CommandFrame(frame.number, comands_list)
+            comands_frames.append(command_frame)
+        return comands_frames
+
+#
+# with open("frames.file", "wb") as f:
+#     pickle.dump(self.frames_list, f, pickle.HIGHEST_PROTOCOL)
+# if os.path.isfile('frames.file'):
+#     logging.info('File dropped')

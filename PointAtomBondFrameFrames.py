@@ -61,7 +61,20 @@ class Frame:
         frame = Frame(self.number, self.bonds_list, self.colors_command_list)
         frame.number = self.number
         frame.bonds_list = self.bonds_list
-        # frame.colors_command_list = self.colors_command_list
+        frame.colors_command_list = self.colors_command_list
+
+        return frame
+
+
+class CommandFrame:
+    def __init__(self, number, commands_list):
+        self.number = number
+        self.commands_list = commands_list
+
+    def create_frame(self):
+        frame = CommandFrame(self.number, self.commands_list)
+        frame.number = self.number
+        frame.commands_list = self.commands_list
 
         return frame
 
@@ -90,3 +103,4 @@ class Frames:
             colors[bond.color].append(bond.bond)
 
         return colors
+
