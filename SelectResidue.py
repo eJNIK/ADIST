@@ -1,6 +1,5 @@
 class SelectResidue:
     def __init__(self, atoms):
-
         self.atoms = atoms
 
     def backbone(self):

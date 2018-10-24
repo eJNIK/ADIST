@@ -10,23 +10,23 @@ class InputFiles:
     def read_pdb(self):
         try:
             pdb_file = open(self.pdb_filename, 'r')
-            a = []  # zmienna tmp
+            a = []
             for line in pdb_file:
-                if "ATOM" in line:  # jesli linia zawiera slowo kluczowe atom
-                    if 'TIP3W' in line:  # jesli linia zawiera TIP3W to przerwij
+                if "ATOM" in line:
+                    if 'TIP3W' in line:
                         logging.info('Water was reached, scanning completed.')
                         break
                     else:
-                        a.append(line.split(' '))  # dodaje linie do listy, rozdziela na tekst i spacje
-            pdb_file.close()  # zamknij plik
+                        a.append(line.split(' '))
+            pdb_file.close()
             logging.info('File ' + self.pdb_filename + 'closed.')
-            atom_list = [[] for i in range(len(a))]  # deklaracja listy list o dlugosci ilosci linii w pliku pdb
+            atom_list = [[] for i in range(len(a))]
             for i in range(len(a)):
                 for j in range(len(a[i])):
-                    if a[i][j] == '':  # jesli element listy zawiera spacje nie rob nic
+                    if a[i][j] == '':
                         logging.info('Space found, line passed...')
                     else:
-                        atom_list[i].append(a[i][j])  # jesli nie to dodaj
+                        atom_list[i].append(a[i][j])
             return atom_list
         except FileNotFoundError as error:
             logging.error(error.strerror)
@@ -63,7 +63,6 @@ class InputFiles:
                     else:
                         bond_list[i].append(str.rstrip(b[i][j]))
             return bond_list
-
         except FileNotFoundError as error:
             logging.error(error.strerror)
 
