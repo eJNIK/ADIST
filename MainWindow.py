@@ -3,7 +3,7 @@ from SelectResidue import SelectResidue
 from Tools import Tools, logger, logging
 from Color import Color, ColorCommand
 from PointAtomBondFrameFrames import Atom, Frames, Frame, Bond, CommandFrame
-import pymol2, pymol
+import pymol2
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QFileDialog
 from PyQt5.QtCore import pyqtSlot
 from gui import LoadFileWindow, OptionWindow
@@ -31,7 +31,6 @@ class MainWindow(QMainWindow):
         self.load_file.pdb_btn.clicked.connect(self.file_load_click)
         self.load_file.psf_btn.clicked.connect(self.file_load_click)
         self.load_file.dcd_btn.clicked.connect(self.file_load_click)
-        # self.load_file.project_btn.clicked.connect(self.file_load_click)
         self.load_file.next_btn.clicked.connect(self.start_option_window)
         self.show()
 
@@ -80,7 +79,6 @@ class MainWindow(QMainWindow):
 
             if self.option.ten_colors_check.isChecked():
                 if self.frames_list:
-
                     self.comand_frames = self.create_commands_list(self.frames_list)
                     with open("frames.file", "wb") as f:
                         pickle.dump(self.comand_frames, f, pickle.HIGHEST_PROTOCOL)
@@ -169,9 +167,3 @@ class MainWindow(QMainWindow):
             command_frame = CommandFrame(frame.number, comands_list)
             comands_frames.append(command_frame)
         return comands_frames
-
-#
-# with open("frames.file", "wb") as f:
-#     pickle.dump(self.frames_list, f, pickle.HIGHEST_PROTOCOL)
-# if os.path.isfile('frames.file'):
-#     logging.info('File dropped')

@@ -5,7 +5,7 @@ import sys
 
 
 with open("frames.file", "rb") as f:
-    list = pickle.load(f)
+    frame_list = pickle.load(f)
 f.close()
 os.remove('frames.file')
 
@@ -18,7 +18,7 @@ cmd.load_traj(sys.argv[2], 'loaded_protein')
 cmd.remove('solvent')
 
 
-for frame in list:
+for frame in frame_list:
     cmd.frame(frame.number)
     for command in frame.commands_list:
             cmd.color(command.color_name, selection=command.atoms_to_color)

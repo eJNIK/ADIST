@@ -53,7 +53,6 @@ class Tools:
                         d0 = bond.distance
                     delta_d_list.append(Tools.distance_percent_change(d0, bond.distance))
         plt.plot(delta_d_list, 'ro')
-
         plt.title('Distance between ' + plot_title)
         plt.xlabel('Frames')
         plt.ylabel('Delta d(%)')
