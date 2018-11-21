@@ -13,8 +13,11 @@ pymol_argv = ['pymol', '-q -x ']
 finish_launching(pymol_argv)
 cmd.util.performance(100)
 cmd.set('defer_builds_mode', 10)
+
 cmd.load(sys.argv[1], 'loaded_protein')
 cmd.load_traj(sys.argv[2], 'loaded_protein')
+
+
 cmd.remove('solvent')
 
 

@@ -1,0 +1,47 @@
+#color name:
+  #bottom_range: value as integer e.g. 20
+  #top_range: value as integer e.g. 30
+
+density:
+  bottom_range: -10
+  top_range: -8
+
+nitrogen:
+  bottom_range: -8
+  top_range: -6
+
+marine:
+  bottom_range: -6
+  top_range: -4
+
+lightblue:
+  bottom_range: -4
+  top_range: -2
+
+bluewhite:
+  bottom_range: -2
+  top_range: 0
+
+white:
+  bottom_range: 0
+  top_range: 2
+
+paleyellow:
+  bottom_range: 2
+  top_range: 4
+
+lightorange:
+  bottom_range: 4
+  top_range: 6
+
+oxygen:
+  bottom_range: 6
+  top_range: 8
+
+red:
+  bottom_range: 8
+  top_range: 10
+
+ruby:
+  bottom_range: 10
+  top_range: 15
