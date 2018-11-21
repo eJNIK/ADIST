@@ -87,7 +87,7 @@ class MainWindow(QMainWindow):
                         logging.info('File dropped')
 
                     QMessageBox.information(self, 'ADIST', 'Done, watch result in PyMOL')
-                    subprocess.call(['python', 'ten_colors.py', self.file_pdb, self.file_dcd, 'frames.file'])
+                    #subprocess.call(['python', 'ten_colors.py', self.file_pdb, self.file_dcd, 'frames.file'])
 
                 else:
                     QMessageBox.critical(self, 'Error', 'File not found!')

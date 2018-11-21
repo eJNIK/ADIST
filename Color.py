@@ -66,7 +66,3 @@ class ColorCommand:
             self.atoms_to_color += atom_pair + ','
         self.atoms_to_color = self.atoms_to_color[:-1]
         self.atoms_to_color += ']'
-
-
-color = Color(14)
-print(color.return_color())
