@@ -1,10 +1,10 @@
 #color name:
-  #bottom_range: value as integer e.g. 20
-  #top_range: value as integer e.g. 30
+  #bottom_range: value as float e.g. 20.12
+  #top_range: value as integer e.g. 30.31
 
 density:
-  bottom_range: -10
-  top_range: -8
+  bottom_range: -10.567
+  top_range: -8.54
 
 nitrogen:
   bottom_range: -8

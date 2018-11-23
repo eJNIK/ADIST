@@ -88,6 +88,7 @@ class Frames:
         colors = {
             'density': [],
             'nitrogen': [],
+            'marine': [],
             'lightblue': [],
             'bluewhite': [],
             'white': [],

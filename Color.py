@@ -10,21 +10,19 @@ class Color:
     def return_color(self):
         try:
             try:
-                config = yaml.load(open('conffig.yaml'))
-                logging.info('Configuration load from file')
-
+                config = yaml.load(open('config.yaml'))
                 colors_set = RangeKeyDict({
-                    (int(config['density']['bottom_range']), int(config['density']['top_range'])): 'density',
-                    (int(config['nitrogen']['bottom_range']), int(config['nitrogen']['top_range'])): 'nitrogen',
-                    (int(config['marine']['bottom_range']), int(config['marine']['top_range'])): 'marine',
-                    (int(config['lightblue']['bottom_range']), int(config['lightblue']['top_range'])): 'lightblue',
-                    (int(config['bluewhite']['bottom_range']), int(config['bluewhite']['top_range'])): 'bluewhite',
-                    (int(config['white']['bottom_range']), int(config['white']['top_range'])): 'white',
-                    (int(config['paleyellow']['bottom_range']), int(config['paleyellow']['top_range'])): 'paleyellow',
-                    (int(config['lightorange']['bottom_range']), int(config['lightorange']['top_range'])): 'lightorange',
-                    (int(config['oxygen']['bottom_range']), int(config['oxygen']['top_range'])): 'oxygen',
-                    (int(config['red']['bottom_range']), int(config['red']['top_range'])): 'red',
-                    (int(config['ruby']['bottom_range']), int(config['ruby']['top_range'])): 'ruby',
+                    (float(config['density']['bottom_range']), float(config['density']['top_range'])): 'density',
+                    (float(config['nitrogen']['bottom_range']), float(config['nitrogen']['top_range'])): 'nitrogen',
+                    (float(config['marine']['bottom_range']), float(config['marine']['top_range'])): 'marine',
+                    (float(config['lightblue']['bottom_range']), float(config['lightblue']['top_range'])): 'lightblue',
+                    (float(config['bluewhite']['bottom_range']), float(config['bluewhite']['top_range'])): 'bluewhite',
+                    (float(config['white']['bottom_range']), float(config['white']['top_range'])): 'white',
+                    (float(config['paleyellow']['bottom_range']), float(config['paleyellow']['top_range'])): 'paleyellow',
+                    (float(config['lightorange']['bottom_range']), float(config['lightorange']['top_range'])): 'lightorange',
+                    (float(config['oxygen']['bottom_range']), float(config['oxygen']['top_range'])): 'oxygen',
+                    (float(config['red']['bottom_range']), float(config['red']['top_range'])): 'red',
+                    (float(config['ruby']['bottom_range']), float(config['ruby']['top_range'])): 'ruby',
 
                 })
 
@@ -32,7 +30,6 @@ class Color:
 
             except FileNotFoundError as err:
 
-                logging.warning('Configuration with name ' + err.filename + ' not found, default settings chosen.')
                 default_colors_set = RangeKeyDict({
                     (-(maxsize), -20): 'density',
                     (-20, -15): 'nitrogen',
@@ -66,3 +63,7 @@ class ColorCommand:
             self.atoms_to_color += atom_pair + ','
         self.atoms_to_color = self.atoms_to_color[:-1]
         self.atoms_to_color += ']'
+
+
+color = Color(-10.454)
+print(color.return_color())
