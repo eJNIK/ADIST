@@ -8,7 +8,7 @@ import subprocess
 with open("frames.file", "rb") as f:
     frame_list = pickle.load(f)
 f.close()
-#os.remove('frames.file')
+os.remove('frames.file')
 
 
 pymol_argv = ['pymol', '-q -x ']

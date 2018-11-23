@@ -1,6 +1,6 @@
 #color name:
   #bottom_range: value as float e.g. 20.12
-  #top_range: value as integer e.g. 30.31
+  #top_range: value as float e.g. 30.31
 
 density:
   bottom_range: -10.567
