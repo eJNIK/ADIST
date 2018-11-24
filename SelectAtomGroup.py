@@ -1,4 +1,4 @@
-class SelectResidue:
+class SelectAtomGroup:
     def __init__(self, atoms):
         self.atoms = atoms
 
@@ -12,3 +12,12 @@ class SelectResidue:
                 backbone.append(bond)
 
         return backbone
+
+    def all_atoms(self):
+
+        all_atoms = []
+
+        for bond in self.atoms:
+            all_atoms.append(bond)
+
+        return all_atoms

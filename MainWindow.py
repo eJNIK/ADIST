@@ -1,12 +1,12 @@
 from InputFiles import InputFiles
-from SelectResidue import SelectResidue
+from SelectAtomGroup import SelectAtomGroup
 from Tools import Tools, logger, logging
 from Color import Color, ColorCommand
 from PointAtomBondFrameFrames import Atom, Frames, Frame, Bond, CommandFrame
 import pymol2
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QFileDialog
 from PyQt5.QtCore import pyqtSlot
-from gui import LoadFileWindow, OptionWindow
+from GUI import LoadFileWindow, OptionWindow
 import subprocess
 import pickle
 import os.path
@@ -20,6 +20,7 @@ class MainWindow(QMainWindow):
         self.file_psf = ''
         self.file_dcd = ''
         self.file_frames = ''
+        self.combo_box_option = ''
         self.setGeometry(50, 50, 400, 450)
 
         self.setWindowTitle('ADIST')
@@ -31,6 +32,7 @@ class MainWindow(QMainWindow):
         self.load_file.pdb_btn.clicked.connect(self.file_load_click)
         self.load_file.psf_btn.clicked.connect(self.file_load_click)
         self.load_file.dcd_btn.clicked.connect(self.file_load_click)
+        self.combo_box_option = self.load_file.combo.currentText()
         self.load_file.next_btn.clicked.connect(self.start_option_window)
         self.show()
 
@@ -39,15 +41,23 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.option)
         self.option.back_btn.clicked.connect(self.start_load_file_window)
         self.option.run_btn.clicked.connect(self.run_option)
+
         self.show()
 
     @pyqtSlot()
     def run_option(self):
         if self.file_pdb and self.file_psf and self.file_dcd:
             input_files = InputFiles(self.file_pdb, self.file_psf)
+
             bonds = input_files.crete_bonds_list()
-            select_residue = SelectResidue(bonds)
-            backbone = select_residue.backbone()
+            select_residue = SelectAtomGroup(bonds)
+
+            if str(self.combo_box_option) == 'Backbone':
+                selected_atoms = select_residue.backbone()
+            elif str(self.combo_box_option) == 'All':
+                selected_atoms = select_residue.all_atoms()
+            else:
+                QMessageBox.information(self, 'ADIST', 'Something gone wrong !')
 
             self.p1 = pymol2.PyMOL()
             self.p1.start()
@@ -57,7 +67,7 @@ class MainWindow(QMainWindow):
             self.p1.cmd.load(self.file_pdb, 'loaded_protein')
             self.p1.cmd.load_traj(self.file_dcd, 'loaded_protein')
             self.p1.cmd.remove('solvent')
-            self.frames_list = self.create_frames_list(backbone)
+            self.frames_list = self.create_frames_list(selected_atoms)
             self.p1.stop()
 
             if self.option.file_check.isChecked():

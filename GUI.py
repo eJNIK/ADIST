@@ -22,12 +22,13 @@ class LoadFileWindow(QWidget):
         self.dcd_btn.move(100, 150)
 
         self.label_combo = QLabel(self)
-        self.label_combo.setText('Select residue')
-        self.label_combo.move(150, 230)
+        self.label_combo.setText('Select atom group')
+        self.label_combo.move(130, 230)
 
         self.residue_cb = QComboBox
         self.combo = QComboBox(self)
         self.combo.addItem('Backbone')
+        self.combo.addItem('All')
         self.combo.resize(200, 40)
         self.combo.move(100, 250)
 

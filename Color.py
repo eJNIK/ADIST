@@ -49,7 +49,7 @@ class Color:
 
         except KeyError as error:
             logging.error('Value:' + str(error) + ' out of range!')
-            return 'green'
+            return 'white'
 
 
 class ColorCommand:
