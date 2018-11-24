@@ -10,7 +10,7 @@ class Color:
     def return_color(self):
         try:
             try:
-                config = yaml.load(open('config.yaml'))
+                config = yaml.load(open('connfig.yaml'))
                 colors_set = RangeKeyDict({
                     (float(config['density']['bottom_range']), float(config['density']['top_range'])): 'density',
                     (float(config['nitrogen']['bottom_range']), float(config['nitrogen']['top_range'])): 'nitrogen',
