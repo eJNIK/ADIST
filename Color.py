@@ -1,35 +1,38 @@
 from range_key_dict import RangeKeyDict
 from Tools import logger, maxsize, logging
-import yaml
 
 
 class Color:
-    def __init__(self, delta_pr):
+    def __init__(self, delta_pr, config):
         self.delta_pr = delta_pr
+        self.config = config
 
     def return_color(self):
-        try:
+        if self.config:
             try:
-                config = yaml.load(open('connfig.yaml'))
                 colors_set = RangeKeyDict({
-                    (float(config['density']['bottom_range']), float(config['density']['top_range'])): 'density',
-                    (float(config['nitrogen']['bottom_range']), float(config['nitrogen']['top_range'])): 'nitrogen',
-                    (float(config['marine']['bottom_range']), float(config['marine']['top_range'])): 'marine',
-                    (float(config['lightblue']['bottom_range']), float(config['lightblue']['top_range'])): 'lightblue',
-                    (float(config['bluewhite']['bottom_range']), float(config['bluewhite']['top_range'])): 'bluewhite',
-                    (float(config['white']['bottom_range']), float(config['white']['top_range'])): 'white',
-                    (float(config['paleyellow']['bottom_range']), float(config['paleyellow']['top_range'])): 'paleyellow',
-                    (float(config['lightorange']['bottom_range']), float(config['lightorange']['top_range'])): 'lightorange',
-                    (float(config['oxygen']['bottom_range']), float(config['oxygen']['top_range'])): 'oxygen',
-                    (float(config['red']['bottom_range']), float(config['red']['top_range'])): 'red',
-                    (float(config['ruby']['bottom_range']), float(config['ruby']['top_range'])): 'ruby',
+                    (float(self.config['density']['bottom_range']), float(self.config['density']['top_range'])): 'density',
+                    (float(self.config['nitrogen']['bottom_range']), float(self.config['nitrogen']['top_range'])): 'nitrogen',
+                    (float(self.config['marine']['bottom_range']), float(self.config['marine']['top_range'])): 'marine',
+                    (float(self.config['lightblue']['bottom_range']), float(self.config['lightblue']['top_range'])): 'lightblue',
+                    (float(self.config['bluewhite']['bottom_range']), float(self.config['bluewhite']['top_range'])): 'bluewhite',
+                    (float(self.config['white']['bottom_range']), float(self.config['white']['top_range'])): 'white',
+                    (float(self.config['paleyellow']['bottom_range']), float(self.config['paleyellow']['top_range'])): 'paleyellow',
+                    (float(self.config['lightorange']['bottom_range']), float(self.config['lightorange']['top_range'])): 'lightorange',
+                    (float(self.config['oxygen']['bottom_range']), float(self.config['oxygen']['top_range'])): 'oxygen',
+                    (float(self.config['red']['bottom_range']), float(self.config['red']['top_range'])): 'red',
+                    (float(self.config['ruby']['bottom_range']), float(self.config['ruby']['top_range'])): 'ruby',
 
                 })
 
                 return colors_set[self.delta_pr]
 
-            except FileNotFoundError as err:
+            except KeyError as error:
+                logging.error('Value:' + str(error) + ' out of range!')
+                return 'white'
 
+        else:
+            try:
                 default_colors_set = RangeKeyDict({
                     (-(maxsize), -20): 'density',
                     (-20, -15): 'nitrogen',
@@ -47,9 +50,9 @@ class Color:
 
                 return default_colors_set[self.delta_pr]
 
-        except KeyError as error:
-            logging.error('Value:' + str(error) + ' out of range!')
-            return 'white'
+            except KeyError as error:
+                logging.error('Value:' + str(error) + ' out of range!')
+                return 'white'
 
 
 class ColorCommand:

@@ -35,7 +35,6 @@ class Tools:
                     writer.writerow([frame.number, bond.atom_1.number, bond.atom_2.number, bond.distance, bond.color])
         csv_file.close()
 
-
     @staticmethod
     def distance_percent_change(d0, di):
         delta_d_pr = ((di - d0) / d0) * 100

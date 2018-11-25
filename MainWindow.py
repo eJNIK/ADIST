@@ -10,6 +10,7 @@ from GUI import LoadFileWindow, OptionWindow
 import subprocess
 import pickle
 import os.path
+import yaml
 
 
 class MainWindow(QMainWindow):
@@ -21,10 +22,19 @@ class MainWindow(QMainWindow):
         self.file_dcd = ''
         self.file_frames = ''
         self.combo_box_option = ''
+
+        try:
+            self.config = yaml.load(open('config.yaml'))
+
+        except FileNotFoundError as err:
+            logging.warning('Configuration with name ' + err.filename + ' not found, default settings chosen.')
+            self.config = None
+
         self.setGeometry(50, 50, 400, 450)
 
         self.setWindowTitle('ADIST')
         self.start_load_file_window()
+
 
     def start_load_file_window(self):
         self.load_file = LoadFileWindow(self)
@@ -34,11 +44,16 @@ class MainWindow(QMainWindow):
         self.load_file.dcd_btn.clicked.connect(self.file_load_click)
         self.combo_box_option = self.load_file.combo.currentText()
         self.load_file.next_btn.clicked.connect(self.start_option_window)
+
+
         self.show()
 
     def start_option_window(self):
         self.option = OptionWindow(self)
         self.setCentralWidget(self.option)
+
+        self.setGeometry(50, 50, 400, 850)
+
         self.option.back_btn.clicked.connect(self.start_load_file_window)
         self.option.run_btn.clicked.connect(self.run_option)
 
@@ -149,7 +164,7 @@ class MainWindow(QMainWindow):
                               atom_2_coords[1], atom_2_coords[2])
 
                 delta_d_percent = Tools.distance_percent_change(d0, di)
-                color = Color(delta_d_percent)
+                color = Color(delta_d_percent, self.config)
 
                 new_bond = Bond(atom_1.create_atom(), atom_2.create_atom(), color.return_color())
 
@@ -177,3 +192,4 @@ class MainWindow(QMainWindow):
             command_frame = CommandFrame(frame.number, comands_list)
             comands_frames.append(command_frame)
         return comands_frames
+

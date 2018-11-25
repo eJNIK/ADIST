@@ -19,5 +19,4 @@ class SelectAtomGroup:
 
         for bond in self.atoms:
             all_atoms.append(bond)
-
         return all_atoms

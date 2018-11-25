@@ -100,8 +100,6 @@ class Frames:
         }
 
         for bond in bonds:
-
             colors[bond.color].append(bond.bond)
-
         return colors
 
