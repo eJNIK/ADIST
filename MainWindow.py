@@ -181,15 +181,36 @@ class MainWindow(QMainWindow):
         self.option.progress.setRange(0, len(frames))
 
         for frame in frames:
-            comands_list = []
+            commands_list = []
             completed += 1
             self.option.progress.setValue(completed)
             for key, value in frame.colors_command_list.items():
                 if value:
-                    color_command = ColorCommand(key, value)
-                    color_command.create_color_command()
-                    comands_list.append(color_command)
-            command_frame = CommandFrame(frame.number, comands_list)
+                    if len(value) >= 96:
+                        logging.info('To much atoms to color, list mast be truncated')
+                        truncated_command_list = self.truncate_command(key, value)
+                        for command in truncated_command_list:
+                            commands_list.append(command)
+                    else:
+                        color_command = ColorCommand(key, value)
+                        color_command.create_color_command()
+                        commands_list.append(color_command)
+
+            command_frame = CommandFrame(frame.number, commands_list)
             comands_frames.append(command_frame)
         return comands_frames
 
+    @staticmethod
+    def truncate_command(key, value):
+
+        truncated_command_list = []
+
+        while value:
+            logging.info('Truncate in progress...')
+            atoms = value[0:95]
+            del value[0:95]
+            color_command = ColorCommand(key, atoms)
+            color_command.create_color_command()
+            truncated_command_list.append(color_command)
+
+        return truncated_command_list
